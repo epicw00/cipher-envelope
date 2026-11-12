@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>密文信封</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./src/app.mjs"></script>
+</head>
+<body>
+  <main class="page">
+    <header class="intro">
+      <span class="envelope-mark" aria-hidden="true"></span>
+      <div>
+        <h1>密文信封</h1>
+        <p>用口令加密文本。所有操作都在当前浏览器完成。</p>
+      </div>
+    </header>
+
+    <section class="workspace" aria-label="文本加解密">
+      <div class="workspace-toolbar">
+        <div class="modes" role="group" aria-label="操作模式">
+          <button id="encrypt-tab" type="button" aria-pressed="true">加密</button>
+          <button id="decrypt-tab" type="button" aria-pressed="false">解密</button>
+        </div>
+        <p id="mode-help">收件人需要密文信封和同一个口令才能解密。</p>
+      </div>
+
+      <div class="panes">
+        <form id="cipher-form" class="source-pane" autocomplete="off">
+          <label id="source-label" for="source-input">明文</label>
+          <textarea id="source-input" rows="5" required spellcheck="false" placeholder="输入要加密的文本"></textarea>
+
+          <label for="passphrase">口令</label>
+          <input id="passphrase" type="password" required autocomplete="off" aria-describedby="passphrase-help">
+          <p id="passphrase-help" class="help">请选择较长、难以猜测的口令。</p>
+
+          <button id="submit-button" class="primary" type="submit" disabled>生成密文信封</button>
+        </form>
+
+        <div class="result-pane">
+          <div class="result-header">
+            <label id="output-label" for="output">密文信封</label>
+            <button id="copy-button" class="copy" type="button" disabled>复制结果</button>
+          </div>
+          <textarea id="output" readonly rows="7" spellcheck="false" placeholder="生成的密文信封将显示在这里"></textarea>
+          <p id="form-status" class="status" role="status" aria-atomic="true"></p>
+        </div>
+      </div>
+    </section>
+
+    <details class="method">
+      <summary>加密原理</summary>
+      <p>PBKDF2 使用随机盐从口令派生密钥。AES-GCM 用该密钥和随机 IV 加密文本，并校验密文是否被修改。盐和 IV 随密文信封一起传递。请通过其他渠道分享口令。</p>
+    </details>
+    <noscript><p>请启用 JavaScript 后使用。</p></noscript>
+  </main>
+</body>
+</html>
