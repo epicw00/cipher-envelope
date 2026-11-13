@@ -33,7 +33,10 @@
           <label id="source-label" for="source-input">明文</label>
           <textarea id="source-input" rows="5" required spellcheck="false" placeholder="输入要加密的文本"></textarea>
 
-          <label for="passphrase">口令</label>
+          <div class="passphrase-header">
+            <label for="passphrase">口令</label>
+            <button id="passphrase-toggle" type="button" aria-controls="passphrase" aria-pressed="false">显示口令</button>
+          </div>
           <input id="passphrase" type="password" required autocomplete="off" aria-describedby="passphrase-help">
           <p id="passphrase-help" class="help">请选择较长、难以猜测的口令。</p>
 

@@ -76,6 +76,10 @@ textarea, input {
 }
 textarea { resize: vertical; min-height: 115px; }
 #source-input { margin-bottom: 17px; }
+.passphrase-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.passphrase-header label { margin: 0; }
+#passphrase-toggle { padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: var(--muted); font-size: 13px; }
+#passphrase-toggle[aria-pressed="true"] { background: var(--paper); color: var(--purple); }
 .help { margin: 7px 0 16px; color: var(--muted); font-size: 12px; line-height: 1.5; }
 .primary { border: 0; border-radius: 9px; padding: 11px 17px; color: #fff; background: var(--purple); font-weight: 700; }
 .primary:hover:not(:disabled) { background: #492582; }

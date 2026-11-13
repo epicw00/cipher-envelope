@@ -5,6 +5,7 @@ const encryptTab = document.querySelector("#encrypt-tab");
 const decryptTab = document.querySelector("#decrypt-tab");
 const source = document.querySelector("#source-input");
 const passphrase = document.querySelector("#passphrase");
+const passphraseToggle = document.querySelector("#passphrase-toggle");
 const submitButton = document.querySelector("#submit-button");
 const output = document.querySelector("#output");
 const copyButton = document.querySelector("#copy-button");
@@ -50,6 +51,11 @@ function clearResult() {
   showStatus();
 }
 
+function setPassphraseVisible(visible) {
+  passphrase.type = visible ? "text" : "password";
+  passphraseToggle.setAttribute("aria-pressed", String(visible));
+}
+
 function setMode(nextMode) {
   if (busy || mode === nextMode) return;
   mode = nextMode;
@@ -57,6 +63,7 @@ function setMode(nextMode) {
   const encrypting = mode === "encrypt";
 
   form.reset();
+  setPassphraseVisible(false);
   clearResult();
   encryptTab.setAttribute("aria-pressed", String(encrypting));
   decryptTab.setAttribute("aria-pressed", String(!encrypting));
@@ -76,7 +83,8 @@ function setMode(nextMode) {
 
 function setBusy(active) {
   busy = active;
-  for (const control of [encryptTab, decryptTab, source, passphrase, submitButton]) {
+  if (active) setPassphraseVisible(false);
+  for (const control of [encryptTab, decryptTab, source, passphrase, passphraseToggle, submitButton]) {
     control.disabled = active;
   }
   submitButton.textContent = active ? "处理中…" : modes[mode].action;
@@ -84,6 +92,9 @@ function setBusy(active) {
 
 encryptTab.addEventListener("click", () => setMode("encrypt"));
 decryptTab.addEventListener("click", () => setMode("decrypt"));
+passphraseToggle.addEventListener("click", () => {
+  if (!busy) setPassphraseVisible(passphrase.type === "password");
+});
 form.addEventListener("input", () => {
   if (cryptoAvailable) clearResult();
 });
